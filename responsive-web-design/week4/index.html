@@ -1,0 +1,86 @@
+<!-- This is a first example of using a template -->
+
+<head>
+
+<!-- include our libraries and css files -->
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/handlebars-v3.0.3.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="assignment.js"></script>
+<script src="AnimalsData.js"></script>
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="assignment.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tasks-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="tasks-navbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true" aria-expanded="false">   
+               Classes <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id="classesDropdown"></ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="content">
+  </div>
+
+<script id="animals-template" type="text/x-handlebars-template">
+  <div class="row">
+    {{#each animals}}
+    <div class="col-xs-12 col-md-4 animal-thumbnail">
+      <a href="index.html?classIdx={{class}}&animalIdx={{@index}}">
+        <img src="{{image1}}" class="img-thumbnail" alt="photo of {{name}}">
+        <div class="caption">
+          <h4>{{name}}</h4>
+        </div>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+</script>
+
+<script id="animal-template" type="text/x-handlebars-template">
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <img src="{{image1}}" class="responsive-image" alt="photo of {{name}}">
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <img src="{{image2}}" class="responsive-image" alt="photo of {{name}}">
+    </div>
+    <div class="col-xs-12 col-md-12">
+          <h3>{{name}}</h3>
+          <p>{{description}}</p>
+    </div>
+  </div>
+</script>
+
+<script id="classes-dropdown-template" type="text/x-handlebars-template">
+    {{#each classes}}
+      <li><a href="index.html?classIdx={{@index}}">{{name}}</a></li>
+    {{/each}}
+</script>
+
+</body>

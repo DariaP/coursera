@@ -1,0 +1,13 @@
+/* put your css code here */
+
+body {
+	padding:70px
+}
+
+.animal-thumbnail {
+	padding-top:30px
+}
+
+.animal-thumbnail img {
+	height:150px
+}
