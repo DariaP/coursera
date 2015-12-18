@@ -1,0 +1,7 @@
+../__MACOSX/
+.DS_Store
+.jshintrc
+.tmp/
+bower_components
+dist
+node_modules
