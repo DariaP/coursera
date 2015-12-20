@@ -28,16 +28,21 @@ gulp.task('clean', function() {
 
 // Default task
 gulp.task('default', ['clean'], function() {
-    gulp.start('usemin', 'imagemin','copyfonts');
+    gulp.start('usemin', 'imagemin','copyfonts','copyhtml');
 });
 
 gulp.task('usemin',['jshint'], function () {
-  return gulp.src('./app/dishdetail.html')
+  return gulp.src('./app/index.html')
       .pipe(usemin({
         css:[minifycss(),rev()],
         js: [ngannotate(),uglify(),rev()]
       }))
       .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('copyhtml', ['clean'], function() {
+   gulp.src('./app/*.html')
+   .pipe(gulp.dest('./dist'));
 });
 
 // Images
@@ -76,7 +81,7 @@ gulp.task('browser-sync', ['default'], function () {
    browserSync.init(files, {
       server: {
          baseDir: "dist",
-         index: "dishdetail.html"
+         index: "index.html"
       }
    });
         // Watch any files in dist/, reload on change
