@@ -8,8 +8,9 @@ angular.module('confusionApp')
             $scope.filtText = '';
             $scope.showDetails = false;
 
-            $scope.dishes = menuFactory.getDishes();
+            $scope.dishes= menuFactory.getDishes();
 
+                        
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
                 
@@ -66,44 +67,58 @@ angular.module('confusionApp')
                 }
             };
         }])
-        
+
         .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
+
             var dish= menuFactory.getDish(parseInt($stateParams.id,10));
+            
             $scope.dish = dish;
+            
         }])
 
         .controller('DishCommentController', ['$scope', function($scope) {
-
-            $scope.ratingOptions = [
-              {value:1, label:"1"}, 
-              {value:2, label:"2"},
-              {value:3, label:"3"},
-              {value:4, label:"4"},
-              {value:5, label:"5", checked: true}
-            ];
-
-            $scope.comment =  {
-              rating: null,
-              comment: "",
-              author: "",
-              date: ""
-            };
+            
+            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
-
-                $scope.comment.date = new Date().toISOString();
                 
-                $scope.dish.comments.push($scope.comment);
+                $scope.mycomment.date = new Date().toISOString();
+                console.log($scope.mycomment);
+                
+                $scope.dish.comments.push($scope.mycomment);
                 
                 $scope.commentForm.$setPristine();
-
-                $scope.comment =  {
-                    rating:null,
-                    comment: "",
-                    author: "",
-                    date: ""
-                };
+                
+                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             };
+        }])
+
+        .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function($scope, menuFactory, corporateFactory) {
+
+            var leaders = corporateFactory.getLeaders(),
+                i = 0;
+
+            for (i = 0 ; i < leaders.length ; ++i) {
+                if (leaders[i].designation === "Executive Chef") {
+                    $scope.chief = leaders[i];
+                }
+            }
+
+            var dishes = menuFactory.getDishes();
+            for (i = 0 ; i < dishes.length ; ++i) {
+                if (dishes[i].label === "Hot") {
+                    $scope.featuredDish = dishes[i];
+                }
+            }
+
+            $scope.promotion = menuFactory.getPromotion(0);
+
+        }])
+
+        .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
+
+            $scope.leaders = corporateFactory.getLeaders();
+
         }])
 
 ;
