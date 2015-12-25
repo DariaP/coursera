@@ -71,6 +71,14 @@ angular.module('confusionApp')
 
         .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
             
+            $scope.ratingOptions = [
+              {value:1}, 
+              {value:2},
+              {value:3},
+              {value:4},
+              {value:5, checked: true}
+            ];
+
             $scope.showDish = true;
             $scope.message="Loading ...";
             $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id, 10)});        
