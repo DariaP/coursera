@@ -23,12 +23,12 @@
             </div>            
         </div>
         <div class="col-xs-9 col-xs-offset-1">
-          <form class="form-inline" ng-submit="filterByField()">
+          <form class="form-inline">
             <label>Filter by field:</label>
-            <input type="text" ng-model="filterField">
+            <input type="text" ng-model="orderText">
           </form>
           </p>
-          <ul class="list-unstyled" ng-repeat="comment in dish.comments | orderBy:filterField">
+          <ul class="list-unstyled" ng-repeat="comment in dish.comments | orderBy:orderText">
             <li>
               <blockquote>
                 <p>{{comment.comment}}</p>
@@ -41,8 +41,8 @@
                 <ul class="list-unstyled" ng-show="commentForm.$valid && !commentForm.$pristine">
 					<h4>Your comment preview:</h4>
                       <blockquote>
-                        <p>{{comment.comment}}</p>
-                        <footer>{{comment.author}} commented on {{comment.date | date:"MM/dd/yyyy 'at' h:mma"}}. Rating: {{comment.rating}}</footer>
+                        <p>{{mycomment.comment}}</p>
+                        <footer>{{mycomment.author}} commented on {{mycomment.date | date:"MM/dd/yyyy 'at' h:mma"}}. Rating: {{mycomment.rating}}</footer>
                       </blockquote>
                 </ul>
             <form class="form-horizontal" name="commentForm"
@@ -51,7 +51,7 @@
                 && !commentForm.author.$pristine }">
                     <label for="author" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="author" name="author" placeholder="Name" ng-model="comment.author" required>
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Name" ng-model="mycomment.author" required>
                         <span ng-show="commentForm.author.$error.required && !commentForm.author.$pristine" class="help-block">Your name is required.</span>
                     </div>
                 </div>
@@ -59,14 +59,14 @@
                 <div class="form-group">
                     <label for="rating" class="col-sm-2 control-label">Your rating</label> 
                     <div class="col-sm-10">
-                        <label class="radio-inline" ng-repeat="option in ratingOptions"><input type="radio" ng-model="comment.rating" name="rating" ng-value="{{option.value}} {{option.checked}}">{{option.value}}</label>
+                        <label class="radio-inline" ng-repeat="option in ratingOptions"><input type="radio" ng-model="mycomment.rating" name="rating" ng-value="{{option.value}} {{option.checked}}">{{option.value}}</label>
                     </div>
                 </div>
 
                 <div class="form-group" ng-class="{ 'has-error' : commentForm.comment.$error.required && !commentForm.comment.$pristine }">
                     <label for="comment" class="col-sm-2 control-label">Your Comment</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="comment" name="comment" rows="12" ng-model="comment.comment" required></textarea>
+                        <textarea class="form-control" id="comment" name="comment" rows="12" ng-model="mycomment.comment" required></textarea>
                         <span ng-show="commentForm.comment.$error.required && !commentForm.comment.$pristine" class="help-block">Comment is required.</span>
                     </div>
                 </div> 
