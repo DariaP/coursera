@@ -56,22 +56,21 @@ angular.module('confusionApp')
                         
         }])
 
-        .controller('FeedbackController', ['$scope', function($scope) {
+        .controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope, feedbackFactory) {
             
             $scope.sendFeedback = function() {
                 
-                console.log($scope.feedback);
-                
                 if ($scope.feedback.agree && ($scope.feedback.mychannel === "")) {
                     $scope.invalidChannelSelection = true;
-                    console.log('incorrect');
                 }
                 else {
                     $scope.invalidChannelSelection = false;
+
+                    feedbackFactory.getFeedbacks().update($scope.feedback);
+
                     $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
                     $scope.feedback.mychannel="";
                     $scope.feedbackForm.$setPristine();
-                    console.log($scope.feedback);
                 }
             };
         }])
@@ -111,19 +110,23 @@ angular.module('confusionApp')
 
                 $scope.commentForm.$setPristine();
                 $scope.mycomment = {rating:5, comment:"", author:"", date:""};
-            }
+            };
         }])
 
         .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function($scope, menuFactory, corporateFactory) {
 
-            var leaders = corporateFactory.getLeaders(),
-                i = 0;
-
-            for (i = 0 ; i < leaders.length ; ++i) {
-                if (leaders[i].designation === "Executive Chef") {
-                    $scope.chief = leaders[i];
-                }
-            }
+            $scope.showChief = false;
+            $scope.chiefMessage="Loading ...";
+            $scope.chief = corporateFactory.getLeaders().get({id:3})
+                .$promise.then(
+                    function(response){
+                        $scope.chief = response;
+                        $scope.showChief = true;
+                    },
+                    function(response) {
+                        $scope.chiefMessage = "Error: "+response.status + " " + response.statusText;
+                    }
+                );
 
             $scope.showDish = false;
             $scope.message="Loading ...";
@@ -138,13 +141,32 @@ angular.module('confusionApp')
                     }
                 );
 
-            $scope.promotion = menuFactory.getPromotion(0);
-
+            $scope.showPromotion = false;
+            $scope.promotionMessage="Loading ...";
+            $scope.promotion = menuFactory.getPromotion(0).get()
+                .$promise.then(
+                    function(response){
+                        $scope.promotion = response;
+                        $scope.showPromotion = true;
+                    },
+                    function(response) {
+                        $scope.promotionMessage = "Error: "+response.status + " " + response.statusText;
+                    }
+                );
         }])
 
         .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
 
-            $scope.leaders = corporateFactory.getLeaders();
+            $scope.showLeaders = false;
+            $scope.message = "Loading ...";
+            $scope.leaders = corporateFactory.getLeaders().query(
+                function(response) {
+                    $scope.leaders = response;
+                    $scope.showLeaders = true;
+                },
+                function(response) {
+                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                });
 
         }])
 
