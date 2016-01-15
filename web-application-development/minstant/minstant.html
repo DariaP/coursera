@@ -112,12 +112,14 @@
 
 <!-- simple template that displays a message -->
 <template name="chat_message">
+  <div class="chat_message">
   {{#if avatar userId}}
-    <img src="/{{avatar userId}}" class="msg_img">: {{{text}}}
+    <img src="/{{avatar userId}}" class="msg_img img-circle">: {{{text}}}
   {{else}}
     Someone wrote: {{{text}}}
   {{/if}}
   <br>
+</div>
 </template>
 
 
